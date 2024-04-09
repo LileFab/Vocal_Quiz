@@ -11,11 +11,17 @@ Convert MP3 files to WAV (1.93Go)
 Download [ffmpeg](https://ffmpeg.org/download.html)  before starting  
 
 On Windows
-```cmd
+```bash
 for %i in (*.mp3) do ffmpeg -i "%i" "../clips_wav/%~ni.wav"
 ```
 
 On Linux
 ```bash
 for file in *.mp3; do ffmpeg -i "clips_mp3/$file" "clips_wav/${file%.mp3}.wav"; done
+```
+
+
+## Download Dataset
+```bash
+curl --output data.tar.gz https://share.andrea-joly.fr/api/shares/A1NTY3M/files/ac7a0ca7-94f9-4167-9048-41f53b35c832
 ```
