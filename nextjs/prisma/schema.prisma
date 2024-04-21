@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,31 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model questions {
+  bad_answer_1   String
+  bad_answer_2   String?
+  bad_answer_3   String?
+  creation_date  DateTime?        @db.Timestamp(6)
+  good_answer    String
+  id             Int              @id @default(autoincrement())
+  question       String
+}
+
+model users {
+  creation_date  DateTime?        @db.Timestamp(6)
+  id             Int              @id @default(autoincrement())
+  password       String
+  username       String
+}
+
+model usersresponses {
+  creation_date   DateTime? @db.Timestamp(6)
+  id              Int       @id @default(autoincrement())
+  is_correct      Boolean
+  question_id     Int
+  time_to_respond Float?
+  user_id         String?
+  user_response   String
 }
