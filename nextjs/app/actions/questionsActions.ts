@@ -17,16 +17,32 @@ export async function get10RandomQuestions(): Promise<Question[]> {
   return questions as Question[];
 }
 
-export async function submitUserAnswer(userResponse : UsersResponse) {
-  userResponse.user_id = userId;
-  prisma.usersresponses.create({
-    data: {
-      user_id: userResponse.user_id,
-      question_id: userResponse.question_id,
-      user_response: userResponse.user_response,
-      is_correct: userResponse.is_correct,
-      creation_date: userResponse.creation_date,
-      time_to_respond: userResponse.time_to_respond
+export async function submitUserAnswer(userResponse: UsersResponse) {
+  try {
+    // Assurez-vous que userId n'est pas null avant de procéder
+    if (!userId) {
+      throw new Error("User ID is null");
     }
-  })
+
+    // Affectez userId à user_id dans l'objet userResponse
+    userResponse.user_id = userId;
+
+    // Créez l'enregistrement dans la base de données
+    const createdUserResponse = await prisma.usersresponses.create({
+      data: {
+        user_id: userResponse.user_id,
+        question_id: userResponse.question_id,
+        user_response: userResponse.user_response,
+        is_correct: userResponse.is_correct,
+        creation_date: userResponse.creation_date,
+        time_to_respond: userResponse.time_to_respond
+      }
+    });
+
+    console.log("User response created:", createdUserResponse);
+  } catch (error) {
+    console.error("Error submitting user answer:", error);
+    throw error; // Rejetez l'erreur pour une gestion supplémentaire
+  }
 }
+
