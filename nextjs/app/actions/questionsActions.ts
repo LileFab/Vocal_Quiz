@@ -4,13 +4,12 @@ import {prisma} from "@/utils/prisma"
 import {auth} from "@clerk/nextjs/server"
 import {Question} from "@/app/interface/Questions"
 import {UsersResponse} from"@/app/interface/UserResponse"
+import { FaQuestion } from "react-icons/fa";
 
 const {userId}: {userId: string | null} = auth()
 
 export async function get10RandomQuestions(): Promise<Question[]> {
-  const questions: Question[] = await prisma.questions.findMany({
-    take: 10, // Limite de 10 éléments
-  });
+  const questions: Question[] = await prisma.$queryRaw`SELECT * FROM questions q ORDER BY random() LIMIT 10;`
 
   // Assurez-vous que les données sont correctement typées avant de les retourner
   return questions as Question[];

@@ -9,6 +9,8 @@ import { submitUserAnswer } from "../actions/questionsActions";
 import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import Button from "./ui/Button";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -34,7 +36,11 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
     };
 
     const handleResponseFromChild = async (resp: UsersResponse) => {
-        if (resp.is_correct) setBonneRep(bonneRep + 1);
+        if (resp.is_correct) {
+            setBonneRep(bonneRep + 1);
+            toast.success('Bonne réponse !', {duration:1000});
+        }
+        else toast.error(`Faux, la bonne réponse était ${questionList[questionStep].good_answer}`, {duration:2000})
         await submitUserAnswer(resp);
         stepSubmit()
     }
@@ -49,6 +55,7 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
             transition={{ duration: 0.5 }}
             className="flex flex-col items-center p-24 space-x-6"
         >
+            <Toaster />
             {questionStep === 0 &&(
                 <QuestionCell questionObject={questionList[0]} onSendResponse={handleResponseFromChild}/>
             )
