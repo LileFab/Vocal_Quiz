@@ -1,61 +1,95 @@
 "use client";
 
-import React, { Component } from "react";
+import { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
+import { getNumberOfQuestionsResponded, getNumberOfQuestionsRespondedCorrectly } from "../actions/statsActions";
 
-interface State {
-  options: {
-    chart: {
-      id: string;
+const App = () => {
+  const [nbQuestions, setNbQuestions] = useState(0);
+  const [nbCorrectAnswers, setCorrectAnswers] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setNbQuestions(await getNumberOfQuestionsResponded());
+      setCorrectAnswers(await getNumberOfQuestionsRespondedCorrectly());
     };
-    xaxis: {
-      categories: number[];
-    };
-  };
-  series: {
-    name: string;
-    data: number[];
-  }[];
-}
 
-class App extends Component<{}, State> {
-  constructor(props: any) {
-    super(props);
+    fetchData();
+  }, []);
 
-    this.state = {
-      options: {
-        chart: {
-          id: "basic-bar"
-        },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+  const series = [(nbCorrectAnswers / nbQuestions) * 100];
+  const options = {
+  chart: {
+    type: 'radialBar', // Change the type to 'bar' for radialBar chart
+    offsetY: -20,
+    sparkline: {
+      enabled: true
+    }
+  },
+  plotOptions: {
+    radialBar: {
+      startAngle: -90,
+      endAngle: 90,
+      track: {
+        background: "#e7e7e7",
+        strokeWidth: '97%',
+        margin: 5, // margin is in pixels
+        dropShadow: {
+          enabled: true,
+          top: 2,
+          left: 0,
+          color: '#999',
+          opacity: 1,
+          blur: 2
         }
       },
-      series: [
-        {
-          name: "series-1",
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
+      dataLabels: {
+        name: {
+          show: false
+        },
+        value: {
+          offsetY: -2,
+          fontSize: '22px'
         }
-      ]
-    };
-  }
+      }
+    }
+  },
+  grid: {
+    padding: {
+      top: -10
+    }
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shade: 'light',
+      shadeIntensity: 0.4,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 53, 91]
+    },
+  },
+  labels: ['Average Results']
+};
 
-  render() {
-    return (
-      <div className="app">
-        <div className="row">
-          <div className="mixed-chart">
-            <Chart
-              options={this.state.options}
-              series={this.state.series}
-              type="bar"
-              width="500"
-            />
-          </div>
+  return (
+    <div className="app">
+      <div className="row">
+        <div className="mixed-chart">
+          <h1>Pourcentage de bonne rep</h1>
+          <Chart
+            type="radialBar"
+            options={options}
+            series={series}
+            width="500"
+          />
+          <h1 className="text-2xl">Nombre de questions répondues : {nbQuestions}</h1>
+          <h1 className="text-2xl">Nombre de questions répondues correctement : {nbCorrectAnswers}</h1>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
