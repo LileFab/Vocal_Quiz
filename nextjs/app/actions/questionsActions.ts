@@ -44,3 +44,10 @@ export async function submitUserAnswer(userResponse: UsersResponse) {
   }
 }
 
+export async function getQuestionById(id: number) {
+  return await prisma.questions.findFirst({
+    where: {
+      id: id
+    }
+  }) as Question;
+}
