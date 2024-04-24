@@ -8,10 +8,17 @@ import { FaQuestion } from "react-icons/fa";
 
 const {userId}: {userId: string | null} = auth()
 
+export async function shuffleArray(array: string[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array as string[];
+}
+
 export async function get10RandomQuestions(): Promise<Question[]> {
   const questions: Question[] = await prisma.$queryRaw`SELECT * FROM questions q ORDER BY random() LIMIT 10;`
-
-  // Assurez-vous que les données sont correctement typées avant de les retourner
+  
   return questions as Question[];
 }
 
