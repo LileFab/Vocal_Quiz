@@ -6,19 +6,34 @@ import QuestionButton from "@/app/components/ui/QuestionButton"
 import Button from "@/app/components/ui/Button"
 import { useState, useEffect } from "react"
 import {UsersResponse} from"@/app/interface/UserResponse"
+import { shuffleArray } from "../actions/questionsActions"
 
 const QuestionCell = ({ questionObject, onSendResponse }: { questionObject: Question, onSendResponse:(resp: UsersResponse) => void }) => {
 
     const [response, setResponse] = useState("Réponse par défaut");
     const [pageLoadTime, setPageLoadTime] = useState<Date | null>(null);
+    const [shuffledAnswers, setShuffledAnswers] = useState<string[]>([]);
+
 
     useEffect(() => {
         // Stocker l'heure de chargement de la page
         setPageLoadTime(new Date());
-    }, []); // Exécuter une seule fois lors du chargement initial de la page
+        if (questionObject.bad_answer_2 && questionObject.bad_answer_3)
+        setShuffle()
+    }, [questionObject]); 
 
     const validateResponse = (resp: string | null) => {
         resp !== null ? setResponse(resp) : setResponse("Réponse par défaut")
+    }
+
+    const setShuffle = async () => {
+        if (questionObject.bad_answer_2 && questionObject.bad_answer_3)
+            setShuffledAnswers( await shuffleArray([
+            questionObject.good_answer,
+            questionObject.bad_answer_1,
+            questionObject.bad_answer_2,
+            questionObject.bad_answer_3,
+        ]));
     }
 
     const sendResponse = () => {
@@ -43,12 +58,13 @@ const QuestionCell = ({ questionObject, onSendResponse }: { questionObject: Ques
             transition={{ duration: 0.5 }}
         >
 
-            <h1>{questionObject.question}</h1>
+            <h1 className="justify-content mb-10">{questionObject.question}</h1>
             <div className="grid grid-cols-2">
-                <QuestionButton text={questionObject.good_answer} onClick={() => validateResponse(questionObject.good_answer)}/>
-                <QuestionButton text={questionObject.bad_answer_1} onClick={() => validateResponse(questionObject.bad_answer_1)}/>
-                <QuestionButton text={questionObject.bad_answer_2} onClick={() => validateResponse(questionObject.bad_answer_2)}/>
-                <QuestionButton text={questionObject.bad_answer_3} onClick={() => validateResponse(questionObject.bad_answer_3)}/>
+                {shuffledAnswers.map((answer, index) => (
+                    <div className="px-4">
+                        <QuestionButton key={index} text={answer} onClick={() => validateResponse(answer)}/>
+                    </div>
+                ))}
             </div>
             <Button text="Envoyer la réponse" onClick={sendResponse}/>
         </motion.div>
