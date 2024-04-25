@@ -29,12 +29,15 @@ export async function getNumberOfQuestionsRespondedCorrectly() {
     return nbQuestionCorrect
 }
 
-export async function get20LastResponses() {
+export async function getLastResponses(nb: number) {
     const Responses = await prisma.usersresponses.findMany({
         where: {
             user_id: userId
         },
-        take: 20
+        take: nb,
+        orderBy: {
+            creation_date: "desc"
+        }
     })
 
     return Responses as UsersResponse[];

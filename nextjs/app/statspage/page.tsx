@@ -17,7 +17,7 @@ const App = () => {
     fetchData();
   }, []);
 
-  const series = [(nbCorrectAnswers / nbQuestions) * 100];
+  const series = [((nbCorrectAnswers / nbQuestions) * 100).toFixed(2)];
   const options = {
   chart: {
     type: 'radialBar', // Change the type to 'bar' for radialBar chart

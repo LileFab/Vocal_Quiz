@@ -1,7 +1,7 @@
 import { get10RandomQuestions } from "../actions/questionsActions"
 import { currentUser } from "@clerk/nextjs/server";
 import {Question} from "@/app/interface/Questions"
-import QuestionsLayout from "@/app/components/QuestionsLayout";
+import QuestionsLayout from "@/app/questions/components/QuestionsLayout";
 
 const page = async () => {
     const user = await currentUser();

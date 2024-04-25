@@ -4,7 +4,6 @@ import {prisma} from "@/utils/prisma"
 import {auth} from "@clerk/nextjs/server"
 import {Question} from "@/app/interface/Questions"
 import {UsersResponse} from"@/app/interface/UserResponse"
-import { FaQuestion } from "react-icons/fa";
 
 const {userId}: {userId: string | null} = auth()
 
