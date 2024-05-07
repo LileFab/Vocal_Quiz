@@ -20,7 +20,7 @@ TODO
 git clone https://devops.telecomste.fr/joly.andrea/voice-quiz.git
 ```
 
-**Database part**
+**Database part**  
 Image build
 ```bash
 cd database
