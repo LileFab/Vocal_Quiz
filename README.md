@@ -21,7 +21,6 @@ git clone https://devops.telecomste.fr/joly.andrea/voice-quiz.git
 ```
 
 **Database part**
-
 Image build
 ```bash
 cd database
@@ -35,7 +34,7 @@ docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=P@ssword1 -v ./data:/var/lib/pos
 
 **Backend Part**
 ```bash
-cd nextjs
+cd backend
 npm run dev
 ```
 
