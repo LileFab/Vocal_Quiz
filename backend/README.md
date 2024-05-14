@@ -2,6 +2,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Install packages
+```
+npm install
+```
+
 Pour ajouter des questions faire 
 ```
 npx tsc scripts/questions.ts
