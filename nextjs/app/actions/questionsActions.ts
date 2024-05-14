@@ -1,11 +1,14 @@
 "use server";
 
 import {prisma} from "@/utils/prisma"
-import {auth} from "@clerk/nextjs/server"
 import {Question} from "@/app/interface/Questions"
 import {UsersResponse} from"@/app/interface/UserResponse"
+import { currentUser } from '@clerk/nextjs/server';
 
-const {userId}: {userId: string | null} = auth()
+const getUserId = async () => {
+  const user = await currentUser();
+  return user?.id;
+}
 
 export async function shuffleArray(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -22,13 +25,10 @@ export async function get10RandomQuestions(): Promise<Question[]> {
 }
 
 export async function submitUserAnswer(userResponse: UsersResponse) {
-  try {
-    // Assurez-vous que userId n'est pas null avant de procéder
-    if (!userId) {
-      throw new Error("User ID is null");
-    }
+  const userId = await getUserId();
 
     // Affectez userId à user_id dans l'objet userResponse
+    if (userId)
     userResponse.user_id = userId;
 
     // Créez l'enregistrement dans la base de données
@@ -44,10 +44,6 @@ export async function submitUserAnswer(userResponse: UsersResponse) {
     });
 
     console.log("User response created:", createdUserResponse);
-  } catch (error) {
-    console.error("Error submitting user answer:", error);
-    throw error; // Rejetez l'erreur pour une gestion supplémentaire
-  }
 }
 
 export async function getQuestionById(id: number) {
