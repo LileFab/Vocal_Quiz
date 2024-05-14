@@ -6,7 +6,8 @@ A simple vocal quiz game :sparkles:
 ### Production
 
 ```
-TODO
+npm run build
+npm run start
 ```
 
 ### Development :pencil2:
