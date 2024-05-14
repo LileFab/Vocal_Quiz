@@ -1,4 +1,4 @@
-import {prisma} from "/Users/fabienfleisch/Cours/BigDataProject/voice-quiz/nextjs/utils/prisma"
+import {prisma} from "@/utils/prisma"
 
 enum QuestionType {
   tv_cinema = "tv_cinema",
