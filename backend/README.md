@@ -5,6 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Install packages
 ```
 npm install
+npx prisma db push
 ```
 
 Pour ajouter des questions faire 
