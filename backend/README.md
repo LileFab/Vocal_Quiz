@@ -8,13 +8,11 @@ npm install
 npx prisma db push
 ```
 
-Pour ajouter des questions faire 
+Add questions
 ```
 npx tsc scripts/questions.ts
 node scripts/questions.js  
 ```
-
-⚠️ Pas de vérification de doubon donc risque de questions en double
 
 Finally, run the development server:
 
