@@ -1,3 +1,13 @@
+# Quiz-In 
+
+## Model part
+model/data/
+model/models/
+
+## Backend part
+backend/scripts/*.js
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
