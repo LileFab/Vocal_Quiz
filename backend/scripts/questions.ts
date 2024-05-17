@@ -64,17 +64,17 @@ questions.quizzes.forEach(async (apiQuestion: QuestionFromAPI) => {
 });
 }
 
-importNewQuestions(5, QuestionType.sport, Difficulte.facile);
-importNewQuestions(5, QuestionType.sport, Difficulte.normal);
-importNewQuestions(5, QuestionType.jeux_videos, Difficulte.facile);
-importNewQuestions(5, QuestionType.jeux_videos, Difficulte.normal);
-importNewQuestions(5, QuestionType.culture_generale, Difficulte.facile);
-importNewQuestions(5, QuestionType.culture_generale, Difficulte.normal);
-importNewQuestions(5, QuestionType.actu_politique, Difficulte.facile);
-importNewQuestions(5, QuestionType.actu_politique, Difficulte.normal);
-importNewQuestions(5, QuestionType.musique, Difficulte.facile);
-importNewQuestions(5, QuestionType.musique, Difficulte.normal);
-importNewQuestions(5, QuestionType.art_litterature, Difficulte.facile);
-importNewQuestions(5, QuestionType.art_litterature, Difficulte.normal);
-importNewQuestions(5, QuestionType.tv_cinema, Difficulte.facile);
-importNewQuestions(5, QuestionType.tv_cinema, Difficulte.normal);
+importNewQuestions(10, QuestionType.sport, Difficulte.facile);
+importNewQuestions(10, QuestionType.sport, Difficulte.normal);
+importNewQuestions(10, QuestionType.jeux_videos, Difficulte.facile);
+importNewQuestions(10, QuestionType.jeux_videos, Difficulte.normal);
+importNewQuestions(10, QuestionType.culture_generale, Difficulte.facile);
+importNewQuestions(10, QuestionType.culture_generale, Difficulte.normal);
+importNewQuestions(10, QuestionType.actu_politique, Difficulte.facile);
+importNewQuestions(10, QuestionType.actu_politique, Difficulte.normal);
+importNewQuestions(10, QuestionType.musique, Difficulte.facile);
+importNewQuestions(10, QuestionType.musique, Difficulte.normal);
+importNewQuestions(10, QuestionType.art_litterature, Difficulte.facile);
+importNewQuestions(10, QuestionType.art_litterature, Difficulte.normal);
+importNewQuestions(10, QuestionType.tv_cinema, Difficulte.facile);
+importNewQuestions(10, QuestionType.tv_cinema, Difficulte.normal);
