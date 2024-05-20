@@ -22,7 +22,7 @@ def create_app():
     app = Flask(__name__)
     import secrets 
     app.secret_key = secrets.token_hex(128)
-    logger = configure_logging(app, "DEBUG")
+    logger = configure_logging(app, "INFO")
 
     try:
         logger.info("Starting Blueprints registration...")
