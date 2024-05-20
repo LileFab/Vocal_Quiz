@@ -5,14 +5,13 @@ WORKDIR /app
 
 RUN --mount=type=cache,target=/var/cache/apt \
     apt update && \
-    apt install -y --no-install-recommends libgl1 libglib2.0-0 && \
     apt clean && rm -rf /var/lib/apt/lists/* && \
-    addgroup --gid 1001 aws-segmentation && \
-    adduser --uid 1001 --disabled-password --ingroup aws-segmentation aws-segmentation && \
+    addgroup --gid 1001 aws && \
+    adduser --uid 1001 --disabled-password --ingroup aws aws && \
     pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r requirements_dev.txt && \
     rm -rf /root/.cache
 
-USER aws-segmentation
+USER aws
 
-CMD [ "gunicorn", "--bind=0.0.0.0:8181", "server:flask_app" ]
+CMD [ "gunicorn", "--bind=0.0.0.0:5000", "server:flask_app" ]
