@@ -9,8 +9,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
     addgroup --gid 1001 aws && \
     adduser --uid 1001 --disabled-password --ingroup aws aws && \
     pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements_dev.txt && \
-    rm -rf /root/.cache
+    pip install --no-cache-dir -r requirements_prod.txt && \
+    rm -rf /root/.cache && \
+    chown -R aws:aws /app
 
 USER aws
 
