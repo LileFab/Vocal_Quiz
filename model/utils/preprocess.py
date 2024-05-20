@@ -31,7 +31,7 @@ def audio_to_mel_spectrogram_db(audio_file, sample_rate=22050, n_fft=2048,
                                                      n_fft=n_fft,
                                                      hop_length=hop_length,
                                                      win_length=n_fft)
-    mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max) 
+    mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
     return mel_spectrogram_db
 
 
@@ -49,4 +49,4 @@ def spectrogram_to_tensor_save(spectrogram, filename):
                                 dtype=torch.float32) for data in spectrogram]
     spectrogram = pad(spectrogram)
     spectrogram = torch.stack(spectrogram)
-    torch.save(spectrogram, f'data/{filename}.pt')
+    torch.save(spectrogram, filename)
