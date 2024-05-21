@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -8,21 +9,39 @@ datasource db {
 }
 
 model questions {
+  id             Int              @id @default(autoincrement())
+  category       String?
+  difficulty     String?
   bad_answer_1   String
   bad_answer_2   String?
   bad_answer_3   String?
   creation_date  DateTime?        @db.Timestamp(6)
   good_answer    String
-  id             Int              @id @default(autoincrement())
   question       String
+  usersresponses usersresponses[] // Relation avec usersresponses
 }
 
 model usersresponses {
-  creation_date   DateTime? @db.Timestamp(6)
   id              Int       @id @default(autoincrement())
+  creation_date   DateTime? @db.Timestamp(6)
   is_correct      Boolean
   question_id     Int
   time_to_respond Float?
   user_id         String?
   user_response   String
+
+  question        questions  @relation(fields: [question_id], references: [id]) // Relation avec questions
+}
+
+
+model user {
+  id              String       @id @default(cuid())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  clerkUserId     String      @unique
+  username  String?
+  firstName  String
+  lastName  String
+  imgPath String
+  averageScore  Float?
 }

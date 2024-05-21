@@ -43,7 +43,6 @@ export async function submitUserAnswer(userResponse: UsersResponse) {
       }
     });
 
-    console.log("User response created:", createdUserResponse);
 }
 
 export async function getQuestionById(id: number) {
