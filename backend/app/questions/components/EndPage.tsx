@@ -5,6 +5,7 @@ import { UsersResponse } from "@/app/interface/UserResponse"
 import QuestionCard from "@/app/components/QuestionCard";
 import { useEffect, useState, useRef } from "react";
 import { getLastResponses } from "@/app/actions/statsActions";
+import { updateAverageScoreForUser } from "@/app/actions/usersActions"
 
 const EndPage = ({userName, bonneRep} : {userName: string, bonneRep: number}) => {
 
@@ -18,6 +19,7 @@ const EndPage = ({userName, bonneRep} : {userName: string, bonneRep: number}) =>
                 const newRes = await getLastResponses(10) as UsersResponse[];
                 setRes(newRes);
             };
+            updateAverageScoreForUser()
             get10LastResp();
         }
     }, []);

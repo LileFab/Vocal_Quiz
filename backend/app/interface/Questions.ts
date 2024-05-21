@@ -6,4 +6,6 @@ export interface Question {
   bad_answer_2: string | null;
   bad_answer_3: string | null;
   creation_date: Date | null;
+  category: String | null;
+  difficulty: String | null;
 }

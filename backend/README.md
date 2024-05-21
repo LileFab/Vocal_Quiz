@@ -2,17 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-Install packages
-```
-npm install
-npx prisma db push
-```
-
-Add questions
+Pour ajouter des questions faire 
 ```
 npx tsc scripts/questions.ts
 node scripts/questions.js  
 ```
+
+⚠️ Pas de vérification de doublon donc risque de questions en double
 
 Finally, run the development server:
 
