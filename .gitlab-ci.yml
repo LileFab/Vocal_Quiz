@@ -33,3 +33,19 @@ build-database:
       --dockerfile "${CI_PROJECT_DIR}/database/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/${TAGGED_IMAGE}"
 
+build-model-api:
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  only:
+    - dev
+    - main
+  needs:
+    - sonarqube-check
+  variables:
+    TAGGED_IMAGE: "quiz-in/model-api"
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/model"
+      --dockerfile "${CI_PROJECT_DIR}/model/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/${TAGGED_IMAGE}"
