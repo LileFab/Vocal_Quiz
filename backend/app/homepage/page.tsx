@@ -3,6 +3,7 @@ import { getLastResponses } from "../actions/statsActions";
 import { UsersResponse } from"@/app/interface/UserResponse"
 import QuestionCard from "../components/QuestionCard";
 import Image from "next/image";
+import Record from "@/app/components/Record";
 
 const page = async () => {
   const user = await currentUser();
@@ -11,6 +12,7 @@ const page = async () => {
   
   return (
     <div className="flex flex-col items-center justify-between p-24 h-screen">
+      <Record/>
         <h1 className="text-3xl capitalize font-bold mb-20">Votre Home Page {userName}</h1>
           <Image
             src={"/Questions re 1fy7.svg"}
