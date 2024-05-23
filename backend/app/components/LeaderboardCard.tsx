@@ -2,23 +2,10 @@
 
 import { UserData } from "@/app/interface/UserData";
 import Image from "next/image";
-import { currentUser } from "@clerk/nextjs/server";
 import { useEffect, useState } from "react";
 
 export const LeaderboardCard = ({ index, userData }: { index: number, userData: UserData }) => {
-  const [currentUserId, setCurrentUserId] = useState<string>("No user Id");
 
-  useEffect(() => {
-    const getUser = async () => {
-      const user = await currentUser();
-      if (user) {
-        setCurrentUserId(user.id);
-        console.log(user.id)
-        console.log(userData.clerkUserId)
-      }
-    };
-    getUser();
-  }, []);
 
   return (
     <div key={index} className="border p-2 my-4 bg-slate-500 flex items-center">
@@ -30,8 +17,8 @@ export const LeaderboardCard = ({ index, userData }: { index: number, userData: 
         className="block"
       />
       {/* WIP */}
-      <p className={currentUserId === userData.clerkUserId ? "text-green-500" : ""}>
-        {userData.username} score moyen : {userData.averageScore == null ? "Pas de score" : userData.averageScore}
+      <p className={"p-3"}>
+        {userData.username} score moyen : {userData.averageScore == null ? "Pas de score" : (userData.averageScore * 10).toFixed(2) + " / 10"}
       </p>
     </div>
   );

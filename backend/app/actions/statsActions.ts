@@ -6,6 +6,7 @@ import { currentUser } from '@clerk/nextjs/server';
 import {UserData} from "@/app/interface/UserData"
 import { QuestionCategory, Difficulte } from "@/app/constants/constants"
 
+
 const getUserId = async () => {
   const user = await currentUser();
   return user?.id;
@@ -19,6 +20,17 @@ const getAllUsersInDB = async () => {
     });
 
     return users as UserData[] | undefined;
+}
+
+const getLastXDays = (nb: number) => {
+  var result = [];
+    for (var i=0; i<nb; i++) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        const date = d.toISOString().split('T')[0]
+        result.push(date)
+    }
+    return result.reverse();
 }
 
 
@@ -173,4 +185,59 @@ export async function getDataForBarChart2() {
   }
     ]
   return series
+}
+
+export async function getOptionsForLineChart() {
+  const last10Days =  getLastXDays(10);
+  const lineOptions = {
+      chart: {
+          id: 'lineChart'
+      },
+      xaxis: {
+          categories: last10Days,
+          title: {
+              text: 'Date'
+          }
+      },
+      yaxis: {
+          title: {
+              text: 'Nombre de parties jouées'
+          }
+          },
+  }
+  return lineOptions
+}
+
+export async function getRespondedQuestionsLast10Days() {
+const userId = await getUserId();
+const last10Days = getLastXDays(10);
+let countDays: number[] = [];
+
+let result: any[] = await prisma.$queryRaw`
+  SELECT DATE_TRUNC('day', "creation_date") AS date, COUNT(*) AS count
+  FROM "usersresponses"
+  WHERE "user_id" = ${userId}
+  GROUP BY DATE_TRUNC('day', "creation_date")
+  ORDER BY date;
+`;
+
+const daysOfResult = result.map((e) => e.date.toISOString().split('T')[0]);
+
+last10Days.forEach((e) => {
+  const index = daysOfResult.indexOf(e);
+  
+  if (index !== -1) {
+    countDays.push(Number(result[index].count));
+  } else {
+    countDays.push(0);
+  }
+});
+
+const series = [{
+    name: 'Vous',
+    data: countDays
+  }
+    ]
+
+return series
 }
