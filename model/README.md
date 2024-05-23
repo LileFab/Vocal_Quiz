@@ -1,6 +1,10 @@
-# Voice Quiz - Model part
-This folder provides an API for interacting with a deep learning model that processes 16-bit WAV audio files.  
-The API accepts WAV files as input and returns string as predictions based on the model's analysis.
+# Voice Quiz - Model
+This folder provides a deep learning model and an API to interact with the model.  
+The API accepts 16-bit WAV audio files as input and returns string {"oui", "non", "un", "deux", "trois", "quatre"} as predictions based on the model's analysis.
+
+## Model description
+The model is a Long Short-Term Memory (LSTM) network, a type of recurrent neural network (RNN). With an accuracy of 93%, the model was trained on the [Common Voice](https://commonvoice.mozilla.org/fr/datasets) dataset provided by Mozilla.
+
 
 ## Installation & usage
 
@@ -36,9 +40,6 @@ The API exposes the following endpoints:
     Example:
     ```curl -X POST -F "file=@record.wav" http://localhost:5000/speech_to_text```
     
-## Model description
-The model is designed to analyze 16-bit WAV files and provide predictions based on the audio content {"oui", "non", "un", "deux", "trois", "quatre"}. The specific task and details about the model (e.g., architecture, training data, etc.) should be described here.
-
 
 ## Appendices 
 ### Download the dataset used to train the model
@@ -46,7 +47,7 @@ The model is designed to analyze 16-bit WAV files and provide predictions based 
 curl --output data.tar.gz https://share.andrea-joly.fr/api/shares/quiz-in/files/f15ca738-8eff-499e-917b-b5822ff24152
 ```
 
-### Download the model
+### Download the model pre-trained
 ```bash
 curl --output model.pth https://share.andrea-joly.fr/api/shares/quiz-in/files/5d8ac08f-82ac-4b49-83be-1df749affccd
 ```
