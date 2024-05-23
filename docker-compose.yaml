@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  quiz-in-database:
+    container_name: quiz-in-database
+    image: docker.io/library/mariadb:10.4
+    restart: always
+    networks:
+      - quiz-in-network
+
+  quiz-in-model-api:
+    container_name: quiz-in-model-api
+    image: docker.io/library/mariadb:10.4
+    restart: always
+    networks:
+      - quiz-in-network
+
+  quiz-in-backend:
+    container_name: quiz-in-backend
+    env_file: .env
+    image: ghcr.io/l-usine-logicielle/moodle-grades-scraper
+    depends_on:
+      - quiz-in-database
+      - quiz-in-model-api
+    restart: always
+    networks:
+      - quiz-in-network
+
+networks:
+  quiz-in-network:

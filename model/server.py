@@ -1,7 +1,7 @@
 from flask import Flask
+from flask_cors import CORS
 from typing import List
 import logging
-from traceback import format_exc
 
 
 def register_blueprints(app: Flask, list_bp: List):
@@ -20,7 +20,8 @@ def configure_logging(app: Flask, log_level: str):
 
 def create_app():
     app = Flask(__name__)
-    import secrets 
+    CORS(app, resources={r"/speech_to_text": {"origins": "*"}})
+    import secrets
     app.secret_key = secrets.token_hex(128)
     logger = configure_logging(app, "INFO")
 
@@ -31,9 +32,11 @@ def create_app():
         list_bp = [speech_to_text_bp, hello_world_bp]
         register_blueprints(app, list_bp)
         logger.info("Successfully registered Blueprints.")
-    except:
-        print("error")
-        logger.critical("Unable to register Blueprints.", exc_info=format_exc())
+    except Exception as e:
+        logger.critical(
+            f"An error occurred: Unable to register Blueprints: {e}",
+            exc_info=True
+        )
     return app
 
 
