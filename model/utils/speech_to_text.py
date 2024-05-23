@@ -42,7 +42,8 @@ def instance_speech_to_text(file):
     with torch.no_grad():
         output = lstm(input_tensor)
     predicted_class_index = torch.argmax(output).item()
-    sentence = {0: 'oui', 1: 'non', 2: 'un', 3: 'deux', 4: 'trois', 5: 'quatre'}
+    sentence = {0: 'oui', 1: 'non', 2: 'un', 3: 'deux', 4: 'trois',
+                5: 'quatre'}
     predicted_class = sentence[predicted_class_index]
     return predicted_class
 
