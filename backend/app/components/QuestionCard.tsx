@@ -20,7 +20,7 @@ const QuestionCard = ({index, resp} : {index: number, resp: UsersResponse}) => {
     return (
         <div className="border p-2 my-4 bg-slate-500">
             {question ? (
-                <p key={`${index}`}>A la question "{question.question}" vous avez répondu <span className={`${resp.is_correct ? "text-green-500": "text-red-500"}`}>"{resp.user_response}" </span> en {resp.time_to_respond / 1000}s.</p>
+                <p key={`${index}`}><b>Question :</b> "{question.question}" <br/><b>Réponse :</b> <span className={`${resp.is_correct ? "text-green-500": "text-red-500"}`}>"{resp.user_response}" </span> <br/> <b>Temps de réponse :</b> {resp.time_to_respond / 1000}s.</p>
             ) : (
                 <p>Loading...</p>
             )}

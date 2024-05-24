@@ -19,9 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="dark:bg-gray-800 text-white">
+      <html lang="en" className="dark:bg-gray-900 text-white">
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <body className={`${roboto.className} dark:bg-gray-800 text-white`}>
+        <body className={`${roboto.className} dark:bg-gray-900 text-white`}>
           <Navbar/> 
           {children}
           </body>

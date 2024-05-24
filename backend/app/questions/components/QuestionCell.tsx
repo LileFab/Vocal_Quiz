@@ -57,18 +57,20 @@ const setShuffle = async () => {
             transition={{ duration: 0.5 }}
         >
             <div className="flex flex-col">
-                <h2>Question {step} sur 10</h2>
-                <h1 className="justify-content mb-10">{questionObject.question}</h1>
+                <h2><u>Question {step} sur 10 : </u></h2>
+                <h1 className="justify-content mb-10 pt-4">{questionObject.question}</h1>
             </div>
             
-            <div className="grid grid-cols-2">
+            <div className="container flex justify-center items-center">
                 {shuffledAnswers.map((answer, index) => (
-                    <div className="px-4">
-                        <QuestionButton key={index} text={answer} onClick={() => validateResponse(answer)}/>
+                    <div className="p-4">
+                        <QuestionButton key={index} text={`${index+1}. ${answer}`} onClick={() => validateResponse(answer)}/>
                     </div>
                 ))}
             </div>
-            <Button text="Envoyer la réponse" onClick={sendResponse}/>
+            <div className="container flex justify-center items-center">
+                <Button text="Envoyer la réponse" onClick={sendResponse}/>
+            </div>
         </motion.div>
             
     )
