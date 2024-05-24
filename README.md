@@ -6,18 +6,18 @@ A simple vocal quiz game :sparkles:
 ### Production
 #### Deployment with Docker
 Connect to Gitlab Registry:
-```
+```bash
 docker login devops.telecomste.fr:5050
 ```
 
 **Deploy Database**
-```
+```bash
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=P@ssword1 -v ./data:/var/lib/postgresql/data devops.telecomste.fr:5050/joly.andrea/voice-qu
 iz/quiz-in/database
 ```
 
 #### Deployment from scratch
-```
+```bash
 cd backend
 npm run build
 npm run start
@@ -40,11 +40,6 @@ Image build
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=P@ssword1 -v ./data:/var/lib/postgresql/data devops.telecomste.fr:5050/joly.andrea/voice-quiz/quiz-in/database
 ```
 
-Run the container 
-```bash
-docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=P@ssword1 -v ./data:/var/lib/postgresql/data quiz-in/database:latest
-```
-
 **Backend Part**
 ```bash
 cd backend
@@ -65,6 +60,3 @@ This project is licensed under the terms of the MIT license.
 - [Joly Andréa](https://andrea-joly.fr)
 - [Jouve Adrien]()
 - [Ramadier Loïck]()
-
-
-
