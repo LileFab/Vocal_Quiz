@@ -1,9 +1,6 @@
 import logging
-import io
 
-from pydub import AudioSegment
 from flask_cors import cross_origin
-
 
 from flask import Blueprint, jsonify, request
 
@@ -18,7 +15,7 @@ def index():
     logger = logging.getLogger(__name__)
     if 'file' not in request.files:
         return jsonify({'error': 'No file sent'})
-    file = request.files['file']
+    files = request.files['file']
     logger.info("Received audio")
-    text = instance_speech_to_text(file)
+    text = instance_speech_to_text(files)
     return text
