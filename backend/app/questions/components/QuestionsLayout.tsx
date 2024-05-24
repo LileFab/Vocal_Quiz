@@ -12,7 +12,6 @@ import { Toaster } from "react-hot-toast";
 import EndPage from "./EndPage";
 import { StartPage } from "./StartPage";
 import Button from "@/app/components/ui/Button";
-import axios from "axios";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -124,7 +123,7 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
             }
 
             {questionStep === 10 && (
-                <EndPage userName={userName} bonneRep={bonneRep}/>
+                <EndPage userName={userName} bonneRep={bonneRep} srcImage={""}/>
             )}
         </motion.div>
     )
