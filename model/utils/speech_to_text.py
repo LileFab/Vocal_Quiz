@@ -1,11 +1,14 @@
 import requests
 import torch
 import logging
+import torchaudio
 from utils.lstm import LSTM
 from utils.preprocess import (
     spectrogram_to_tensor_save,
+    waveform_to_mel_spectrogram_db,
     audio_to_mel_spectrogram_db,
-    normalize
+    normalize,
+    truncate_voice
 )
 
 
@@ -23,11 +26,11 @@ def download_model(model_url):
 
 def load_model():
     num_layers = 4
-    hidden_size = 50
+    hidden_size = 60
     num_classes = 6
-    dropout = 0.25
+    dropout = 0.30
     sequence_length = 128
-    input_size = 465
+    input_size = 94
     model = LSTM(input_size, hidden_size, num_layers, num_classes,
                  sequence_length, dropout)
     model.load_state_dict(torch.load("model.pth",
@@ -37,14 +40,17 @@ def load_model():
 
 
 def instance_speech_to_text(file):
-    mel_spectrogram_db = audio_to_mel_spectrogram_db(file)
-    spectrogram_to_tensor_save([mel_spectrogram_db], 'mel_spec_wav.pt')
-    input_tensor = torch.load('mel_spec_wav.pt')
-    input_tensor = normalize(input_tensor)
+    waveform, _ = torchaudio.load(file)
+    waveform = truncate_voice(waveform, target_sample_number=48000)
+    mel_spectrograms_wav = waveform_to_mel_spectrogram_db(waveform, n_mels=128, n_fft=512, hop_length=512)
+    input_tensor = normalize(mel_spectrograms_wav)
+    input_tensor = input_tensor.unsqueeze(0)
     lstm = load_model()
     with torch.no_grad():
         output = lstm(input_tensor)
-    predicted_class_index = torch.argmax(output).item()
+    logger.info(output)
+    predicted_class_index = torch.argmax(output, axis=1).item()
+    logger.info(predicted_class_index)
     sentence = {0: 'oui', 1: 'non', 2: 'un', 3: 'deux', 4: 'trois',
                 5: 'quatre'}
     predicted_class = sentence[predicted_class_index]

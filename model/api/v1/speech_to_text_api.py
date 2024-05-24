@@ -2,7 +2,6 @@ import logging
 
 from flask_cors import cross_origin
 
-
 from flask import Blueprint, jsonify, request
 
 from utils.speech_to_text import instance_speech_to_text

@@ -1,46 +1,78 @@
-import librosa
 import numpy as np
 import torch
+import math
 import torch.nn.functional as F
+import torchaudio
+import torchaudio.transforms as audioT
 
 
-def normalize(tensors):
-    normalized_tensors = []
-    for t in tensors:
-        mean, std = torch.mean(t), torch.std(t)
-        normalized_tensors.append((t-mean)/std)
-    return torch.tensor(np.array(normalized_tensors), dtype=torch.float32)
+def waveform_to_mel_spectrogram_db(waveform, n_fft=512, hop_length=512,
+                                   win_length=None, n_mels=15,
+                                   sample_rate=22050):
+    mel_spectrogram = audioT.MelSpectrogram(
+        sample_rate=sample_rate,
+        n_fft=n_fft,
+        win_length=win_length,
+        hop_length=hop_length,
+        center=True,
+        pad_mode="reflect",
+        power=2.0,
+        norm='slaney',
+        n_mels=n_mels,
+        mel_scale="htk",
+    )
+
+    melspec = mel_spectrogram(waveform)
+    return melspec.squeeze()
 
 
-def audio_to_power_spectrogram(audio_file, sample_rate=22050, n_fft=2048,
-                               hop_length=512):
-    y, _ = librosa.load(audio_file, sr=sample_rate)
-    spectrogram = np.abs(librosa.stft(y,
-                                      n_fft=n_fft,
-                                      hop_length=hop_length)) ** 2
-    return spectrogram, y
+def audio_to_mel_spectrogram_db(audio_file, n_fft=512, hop_length=512,
+                                win_length=None, n_mels=15, sample_rate=22050):
+    waveform, _ = torchaudio.load(audio_file)
+    melspec = waveform_to_mel_spectrogram_db(waveform, n_fft, hop_length,
+                                             win_length, n_mels, sample_rate)
+    return melspec
 
 
-def audio_to_mel_spectrogram_db(audio_file, sample_rate=22050, n_fft=2048,
-                                hop_length=512):
-    spectrogram, y = audio_to_power_spectrogram(audio_file, sample_rate, n_fft,
-                                                hop_length)
-    mel_spectrogram = librosa.feature.melspectrogram(y=y,
-                                                     sr=sample_rate,
-                                                     S=spectrogram,
-                                                     n_fft=n_fft,
-                                                     hop_length=hop_length,
-                                                     win_length=n_fft)
-    mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
-    return mel_spectrogram_db
+def normalize(tensor):
+    mean, std = torch.mean(tensor), torch.std(tensor)
+    return torch.tensor((tensor-mean)/std, dtype=torch.float32)
 
 
-def pad(spectrograms):
-    max_x = 128
-    max_y = 465
-    result = [F.pad(input=spectrogram, pad=(0, max_y - spectrogram.shape[1],
-                                            0, max_x - spectrogram.shape[0]),
-                    mode='constant', value=0) for spectrogram in spectrograms]
+def truncate_voice(waveform, target_sample_number):
+    if waveform.shape[1] < target_sample_number:
+        waveform = F.pad(
+                input=waveform,
+                pad=(int(target_sample_number/2), int(target_sample_number/2),
+                     0, 0),
+                mode='constant',
+                value=0
+            )
+    window_length = target_sample_number/8
+    possible_windows_num = math.ceil(waveform.shape[1]/window_length)
+    highest_mean = 0
+    ideal_window_start = 0
+    abs_waveform = torch.abs(waveform)
+    for i in range(0, possible_windows_num):
+        win_start = int(i * window_length)
+        win_stop = win_start+target_sample_number
+        absolute_mean = torch.mean(abs_waveform[:, win_start:win_stop])
+        if (absolute_mean > highest_mean):
+            highest_mean = absolute_mean
+            ideal_window_start = win_start
+    result = waveform[:,
+                      ideal_window_start:
+                          ideal_window_start+target_sample_number
+                      ]
+    if result.shape[1] < target_sample_number:
+        diff = target_sample_number - result.shape[1]
+        result = F.pad(
+                input=result,
+                pad=(int(diff/2), int(diff/2),
+                     0, 0),
+                mode='constant',
+                value=0
+            )
     return result
 
 
