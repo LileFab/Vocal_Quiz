@@ -124,7 +124,7 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
             }
 
             {questionStep === 10 && (
-                <EndPage userName={userName} bonneRep={bonneRep}/>
+                <EndPage userName={userName} bonneRep={bonneRep} srcImage={""}/>
             )}
         </motion.div>
     )
