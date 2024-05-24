@@ -6,6 +6,7 @@ import QuestionCard from "@/app/components/QuestionCard";
 import { useEffect, useState, useRef } from "react";
 import { getLastResponses } from "@/app/actions/statsActions";
 import { updateAverageScoreForUser } from "@/app/actions/usersActions"
+import Image from "next/image";
 
 const EndPage = ({userName, bonneRep, srcImage} : {userName: string, bonneRep: number, srcImage: string}) => {
 
