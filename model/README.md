@@ -3,8 +3,7 @@ This folder provides a deep learning model and an API to interact with the model
 The API accepts 16-bit WAV audio files as input and returns string {"oui", "non", "un", "deux", "trois", "quatre"} as predictions based on the model's analysis.
 
 ## Model description
-The model is a Long Short-Term Memory (LSTM) network, a type of recurrent neural network (RNN). With an accuracy of 93%, the model was trained on the [Common Voice](https://commonvoice.mozilla.org/fr/datasets) dataset provided by Mozilla.
-
+The model is a Long Short-Term Memory (LSTM) network, a type of recurrent neural network (RNN). With an accuracy of 93%, the model was trained on augmented version of the [Common Voice](https://commonvoice.mozilla.org/fr/datasets) dataset provided by Mozilla.
 
 ## Installation & usage
 
