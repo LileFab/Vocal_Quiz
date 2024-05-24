@@ -2,7 +2,7 @@
 
 import { Question } from "@/app/interface/Questions"
 import { motion } from "framer-motion"
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import QuestionCell from "./QuestionCell";
 import { UsersResponse } from"@/app/interface/UserResponse"
 import { submitUserAnswer } from "../../actions/questionsActions";
@@ -10,6 +10,9 @@ import { currentUser } from "@clerk/nextjs/server";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import EndPage from "./EndPage";
+import { StartPage } from "./StartPage";
+import Button from "@/app/components/ui/Button";
+import axios from "axios";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -18,9 +21,10 @@ const variants = {
 };
 
 const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
-    const [questionStep, setQuestionStep] = useState(0);
+    const [questionStep, setQuestionStep] = useState(-1);
     const [bonneRep, setBonneRep] = useState(0);
     const [userName, setUserName] = useState("");
+
 
     useEffect( () => {
         const getUser = async() => {
@@ -28,6 +32,7 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
             const userName = user?.firstName ?? "";
             setUserName(userName)
         }
+        
     }, []);
 
     const stepSubmit = () => {
@@ -35,6 +40,7 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
     };
 
     const handleResponseFromChild = async (resp: UsersResponse) => {
+        console.log(resp);
         if (resp.is_correct) {
             setBonneRep(bonneRep + 1);
             toast.success('Bonne réponse !', {duration:1000});
@@ -55,8 +61,20 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
             className="flex flex-col items-center p-24 space-x-6"
         >
             <Toaster />
+             {questionStep === -1 &&(
+                <>
+                    <StartPage/>
+                    <Button text="Commencer le quiz" onClick={stepSubmit}/>
+                </>
+            )
+            }
+
             {questionStep === 0 &&(
-                <QuestionCell step={questionStep + 1} questionObject={questionList[0]} onSendResponse={handleResponseFromChild}/>
+                <>
+
+                    <QuestionCell step={questionStep + 1} questionObject={questionList[0]} onSendResponse={handleResponseFromChild}/>
+                </>
+                
             )
             }
 

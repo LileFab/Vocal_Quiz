@@ -3,7 +3,6 @@ import { getLastResponses } from "../actions/statsActions";
 import { UsersResponse } from"@/app/interface/UserResponse"
 import QuestionCard from "../components/QuestionCard";
 import Image from "next/image";
-import Record from "@/app/components/Record";
 
 const page = async () => {
   const user = await currentUser();
