@@ -37,7 +37,7 @@ const QuestionCell = ({
             try {
                 const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 audioStreamRef.current = audioStream;
-                audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+                audioContextRef.current = new (window.AudioContext)();
                 const recorder = new MediaRecorder(audioStream);
                 recorder.ondataavailable = (event) => {
                     if (event.data.size > 0) {
