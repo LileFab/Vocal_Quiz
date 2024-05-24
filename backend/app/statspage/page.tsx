@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {getRespondedQuestionsLast10Days, getOptionsForLineChart, getNumberOfQuestionsResponded, getAverageScore, getAverageScoreOfTheDay, getDataForLeaderboard, getDataForBarChart1, getDataForBarChart2 } from "../actions/statsActions";

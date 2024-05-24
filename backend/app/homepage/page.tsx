@@ -11,16 +11,15 @@ const page = async () => {
   const lastQuestions: UsersResponse[] = await getLastResponses(20);
   
   return (
-    <div className="flex flex-col items-center justify-between p-24 h-screen">
-      <Record/>
+    <div className="flex flex-col items-center justify-between p-10 h-screen">
         <h1 className="text-3xl capitalize font-bold mb-20">Votre Home Page {userName}</h1>
           <Image
             src={"/Questions re 1fy7.svg"}
-            width={500}
-            height={300}
+            width={350}
+            height={150}
             alt="Home Image"
             className="block"
-        />
+          />
           <div className="mt-14">
             <h1 className="text-3xl font-bold my-6">Vos 20 derniers résultats : </h1>
             <div className="grid grid-cols-2 gap-6"> 
