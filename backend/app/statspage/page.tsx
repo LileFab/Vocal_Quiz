@@ -73,7 +73,7 @@ const App = () => {
               </div>
             </div>
             <div className="w-full text-center">
-              <h3 className="text-s font-bold pb-2"><p>Nombre de partie joué par jour</p></h3>
+              <h3 className="text-s font-bold pb-2"><p>Nombres de parties jouées par jour</p></h3>
               <ApexChart type="line" options={lineOptions} series={lineSeries} height={300} width={870} />
             </div>
           </div>
