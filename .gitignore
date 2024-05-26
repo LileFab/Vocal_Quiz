@@ -8,7 +8,7 @@ clips/
 ## Backend part
 backend/scripts/*.js
 backend/utils/*.js
-
+backend/.env.example
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
