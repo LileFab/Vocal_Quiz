@@ -26,14 +26,6 @@ def waveform_to_mel_spectrogram_db(waveform, n_fft=512, hop_length=512,
     return melspec.squeeze()
 
 
-def audio_to_mel_spectrogram_db(audio_file, n_fft=512, hop_length=512,
-                                win_length=None, n_mels=15, sample_rate=22050):
-    waveform, _ = torchaudio.load(audio_file)
-    melspec = waveform_to_mel_spectrogram_db(waveform, n_fft, hop_length,
-                                             win_length, n_mels, sample_rate)
-    return melspec
-
-
 def normalize(tensor):
     mean, std = torch.mean(tensor), torch.std(tensor)
     return torch.tensor((tensor-mean)/std, dtype=torch.float32)
@@ -74,11 +66,3 @@ def truncate_voice(waveform, target_sample_number):
                 value=0
             )
     return result
-
-
-def spectrogram_to_tensor_save(spectrogram, filename):
-    spectrogram = [torch.tensor(data,
-                                dtype=torch.float32) for data in spectrogram]
-    spectrogram = pad(spectrogram)
-    spectrogram = torch.stack(spectrogram)
-    torch.save(spectrogram, filename)
