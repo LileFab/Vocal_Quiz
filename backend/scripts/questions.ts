@@ -38,6 +38,34 @@ interface QuestionFromAPI {
   difficulty: string;
 }
 
+async function insertQuestions() {
+  const query = `
+    INSERT INTO questions (category, difficulty, bad_answer_1, bad_answer_2, bad_answer_3, creation_date, good_answer, question) VALUES
+    ('culture_generale', 'facile', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que la Terre est ronde?'),
+    ('culture_generale', 'facile', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que le ciel est bleu?'),
+    ('culture_generale', 'facile', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que les poissons volent?'),
+    ('culture_generale', 'facile', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que le feu est froid?'),
+    ('actu_politique', 'normal', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que l''eau gèle à 0°C?'),
+    ('actu_politique', 'normal', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que le soleil est une étoile?'),
+    ('actu_politique', 'normal', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que les humains peuvent respirer sous l''eau sans équipement?'),
+    ('actu_politique', 'normal', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que les arbres produisent de l''oxygène la nuit?'),
+    ('art_litterature', 'difficile', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que Napoléon a été empereur de France?'),
+    ('art_litterature', 'difficile', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que la Révolution française a eu lieu en 1789?'),
+    ('art_litterature', 'difficile', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que Christophe Colomb a découvert l''Amérique en 1492?'),
+    ('art_litterature', 'difficile', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que la Première Guerre mondiale a commencé en 1939?'),
+    ('musique', 'facile', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que les pyramides d''Égypte sont des tombes?'),
+    ('musique', 'facile', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que la Joconde est un tableau de Léonard de Vinci?'),
+    ('musique', 'facile', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que le Taj Mahal est en France?'),
+    ('musique', 'facile', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que le mont Everest est la plus haute montagne du monde?'),
+    ('tv_cinema', 'normal', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que la programmation est une compétence informatique?'),
+    ('tv_cinema', 'normal', 'Non', NULL, NULL, NOW(), 'Oui', 'Est-ce que les ordinateurs utilisent des processeurs?'),
+    ('tv_cinema', 'normal', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que HTML est un langage de programmation?'),
+    ('tv_cinema', 'normal', 'Oui', NULL, NULL, NOW(), 'Non', 'Est-ce que les téléphones portables n''ont pas besoin de batteries?');
+  `;
+
+  await prisma.$executeRawUnsafe(query);
+}
+
 async function importNewQuestions(nb: number, type: QuestionType, diff: Difficulte) {
   const response = await fetch(`https://quizzapi.jomoreschi.fr/api/v1/quiz?limit=${nb}&category=${type}&difficulty=${diff}`);
   const questions = await response.json();
@@ -88,17 +116,18 @@ questions.quizzes.forEach(async (apiQuestion: QuestionFromAPI) => {
 //  difficile = "difficile"
 // }
 
-importNewQuestions(10, QuestionType.sport, Difficulte.facile);
-importNewQuestions(10, QuestionType.sport, Difficulte.normal);
-importNewQuestions(10, QuestionType.jeux_videos, Difficulte.facile);
-importNewQuestions(10, QuestionType.jeux_videos, Difficulte.normal);
-importNewQuestions(10, QuestionType.culture_generale, Difficulte.facile);
-importNewQuestions(10, QuestionType.culture_generale, Difficulte.normal);
-importNewQuestions(10, QuestionType.actu_politique, Difficulte.facile);
-importNewQuestions(10, QuestionType.actu_politique, Difficulte.normal);
-importNewQuestions(10, QuestionType.musique, Difficulte.facile);
-importNewQuestions(10, QuestionType.musique, Difficulte.normal);
-importNewQuestions(10, QuestionType.art_litterature, Difficulte.facile);
-importNewQuestions(10, QuestionType.art_litterature, Difficulte.normal);
-importNewQuestions(10, QuestionType.tv_cinema, Difficulte.facile);
-importNewQuestions(10, QuestionType.tv_cinema, Difficulte.normal);
+importNewQuestions(20, QuestionType.sport, Difficulte.facile);
+importNewQuestions(20, QuestionType.sport, Difficulte.normal);
+importNewQuestions(20, QuestionType.jeux_videos, Difficulte.facile);
+importNewQuestions(20, QuestionType.jeux_videos, Difficulte.normal);
+importNewQuestions(20, QuestionType.culture_generale, Difficulte.facile);
+importNewQuestions(20, QuestionType.culture_generale, Difficulte.normal);
+importNewQuestions(20, QuestionType.actu_politique, Difficulte.facile);
+importNewQuestions(20, QuestionType.actu_politique, Difficulte.normal);
+importNewQuestions(20, QuestionType.musique, Difficulte.facile);
+importNewQuestions(20, QuestionType.musique, Difficulte.normal);
+importNewQuestions(20, QuestionType.art_litterature, Difficulte.facile);
+importNewQuestions(20, QuestionType.art_litterature, Difficulte.normal);
+importNewQuestions(20, QuestionType.tv_cinema, Difficulte.facile);
+importNewQuestions(20, QuestionType.tv_cinema, Difficulte.normal);
+insertQuestions();
