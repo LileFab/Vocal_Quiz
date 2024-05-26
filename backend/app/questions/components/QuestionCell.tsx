@@ -30,6 +30,9 @@ const QuestionCell = ({
     const audioContextRef = useRef<AudioContext | null>(null);
     const audioStreamRef = useRef<MediaStream | null>(null);
 
+    const flaskApiUrl = process.env.NEXT_PUBLIC_FLASK_API_URL as string;
+
+
     useEffect(() => {
         setPageLoadTime(new Date());
         setShuffle();
@@ -89,29 +92,32 @@ const QuestionCell = ({
         let tempsPris = 0;
         if (pageLoadTime) tempsPris = new Date().getTime() - pageLoadTime.getTime();
         let respFromModelInt = null;
-        console.log(shuffledAnswers)
+        console.log(shuffledAnswers);
 
         switch(respFromModel) {
-            case "un":respFromModelInt = shuffledAnswers[0];
+            case "un":respFromModelInt = shuffledAnswers[0]?.toString();
             break;
-            case "deux":respFromModelInt = shuffledAnswers[1];
+            case "deux":respFromModelInt = shuffledAnswers[1]?.toString();
             break;
-            case "trois":respFromModelInt = shuffledAnswers[2];
+            case "trois":respFromModelInt = shuffledAnswers[2]?.toString();
             break;
-            case "quatre":respFromModelInt = shuffledAnswers[3];
+            case "quatre":respFromModelInt = shuffledAnswers[3]?.toString();
             break;
-            case "oui":respFromModelInt = 5;
+            case "oui":respFromModelInt = "oui";
             break;
-            case "non":respFromModelInt = 6;
+            case "non":respFromModelInt = "non";
             break;
+            default: respFromModelInt = "Réponse par défaut";
 
         }
+
+        respFromModelInt === undefined ? respFromModelInt="Réponse par défaut" : respFromModelInt;
 
         const newResponse: UsersResponse = {
             question_id: questionObject.id,
             user_id: "",
-            user_response: respFromModelInt ? respFromModelInt.toString() : "test",
-            is_correct: respFromModelInt?.toString() == questionObject.good_answer,
+            user_response: respFromModelInt ? respFromModelInt : "Réponse par défaut",
+            is_correct: respFromModelInt.toLowerCase() === questionObject.good_answer.toLowerCase(),
             time_to_respond: tempsPris,
             creation_date: new Date(),
         };
@@ -181,14 +187,14 @@ const QuestionCell = ({
         formData.append("file", blob, "recording.wav");
 
         try {
-            const response = await axios.post("http://127.0.0.1:5000/speech_to_text", formData, {
+            const response = await axios.post(flaskApiUrl, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data", 
                     "Access-Control-Allow-Origin": "*",
                 },
             });
             setRespFromModel(response.data);
-            //console.log("model response" + response.data)
+            console.log("model resp : " + response.data)
         } catch (error) {
             console.error("Error uploading file:", error);
         }
@@ -197,23 +203,25 @@ const QuestionCell = ({
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
             <div className="flex flex-col">
-                <CountdownCircleTimer
+                <div className="absolute left-0 ml-44">                
+                    <CountdownCircleTimer
                     isPlaying
-                    duration={6}
+                    duration={8}
                     colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                     colorsTime={[7, 5, 2, 0]}
                     size={50}
                     onComplete={() => {
                         stopRecording();
                     }}
-                />
-                <h2>Question {step} sur 10</h2>
-                <h1 className="justify-content mb-10">{questionObject.question}</h1>
+                /></div>
+
+                <h2 className="mb-4 font-bold text-3xl underline">Question {step} sur 10</h2>
+                <h1 className="justify-content mb-10 text-lg">{questionObject.question}</h1>
             </div>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 items-center text-center">
                 {shuffledAnswers.map((answer, index) => (
                     <div className="px-4" key={index}>
-                        <QuestionButton text={(index+1) + " - " + answer} onClick={() => validateResponse(answer)} />
+                        <QuestionButton text={(answer.toLowerCase() == "oui" || answer.toLowerCase() == "non") ? answer : ((index+1) + " - " + answer)} onClick={() => validateResponse(answer)} />
                     </div>
                 ))}
             </div>

@@ -45,7 +45,7 @@ export async function getNumberOfQuestionsResponded() {
     return nbQuestion as number;
 }
 
-export async function getLastResponses(nb: number) {
+export async function getLastResponsesForHomepage(nb: number) {
     const userId = await getUserId();
     const Responses = await prisma.usersresponses.findMany({
         where: {
@@ -58,6 +58,21 @@ export async function getLastResponses(nb: number) {
     })
 
     return Responses as UsersResponse[];
+}
+
+export async function getLastResponsesForEndpage(nb: number) {
+    const userId = await getUserId();
+    const Responses = await prisma.usersresponses.findMany({
+        where: {
+            user_id: userId
+        },
+        take: nb,
+        orderBy: {
+            creation_date: "desc"
+        }
+    })
+
+    return Responses.reverse() as UsersResponse[];
 }
 
 export async function getAverageScore () {
@@ -107,7 +122,7 @@ export async function getAverageScoreOfTheDay () {
 export async function getDataForLeaderboard() {
     const users = await getAllUsersInDB();
     if (users !== undefined){
-        return users as UserData[];
+        return users.filter((valeur) => valeur.averageScore !== null) as UserData[];
     }
 }
 
