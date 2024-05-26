@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from typing import List
 import logging
+from flasgger import Swagger
 
 
 def register_blueprints(app: Flask, list_bp: List):
@@ -41,6 +42,7 @@ def create_app():
 
 
 flask_app = create_app()
+swagger = Swagger(flask_app)
 
 if __name__ == '__main__':
     flask_app.run(port=5000, host="0.0.0.0", debug=True)
