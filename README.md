@@ -1,56 +1,80 @@
 # Quiz'In :microphone:
 A simple vocal quiz game :sparkles:
+This repository contains the code for the Quiz'In application. This application is composed of a backend developed with Next.js and a deep learning model built using PyTorch.
 
-## :hammer: Installation
+## :hammer: Installation for production
 
-### Production
-#### Deployment with Docker
-Connect to Gitlab Registry:
+### Deployment with Docker
+1. Clone the project
+```bash
+git clone https://devops.telecomste.fr/joly.andrea/voice-quiz.git
+```
+2. Sign in to gitlab registry
 ```bash
 docker login devops.telecomste.fr:5050
 ```
-
-**Deploy Database**
+3. Fill .env file withe the .env.example file.
 ```bash
-docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=P@ssword1 -v ./data:/var/lib/postgresql/data devops.telecomste.fr:5050/joly.andrea/voice-qu
-iz/quiz-in/database
+vi .env
+```
+4. Run the docker compose file
+```bash
+docker compose up -d
 ```
 
-#### Deployment from scratch
-```bash
-cd backend
-npm run build
-npm run start
-```
+### Deployment from scratch
 
-### Development :pencil2:
 **Prerequisites**
 - Python :snake:
 - Docker :whale:
 - Node.js
+- Ngrok
 
----
+**Installation**  
+First, clone the project:
 ```bash
 git clone https://devops.telecomste.fr/joly.andrea/voice-quiz.git
 ```
 
-**Database part** 
-Image build
+Sign in to gitlab registry:
 ```bash
-docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=P@ssword1 -v ./data:/var/lib/postgresql/data devops.telecomste.fr:5050/joly.andrea/voice-quiz/quiz-in/database
+docker login devops.telecomste.fr:5050
 ```
 
-**Backend Part**
+**Deploy database**
+```bash
+cd database
+docker run -d --restart always -p 5432:5432 -e POSTGRES_PASSWORD=mypassword -v ./data:/var/lib postgresql/data quiz-in/database:latest
+```
+
+**Deploy model API**
+```bash
+cd model
+pip install -r requirements_prod.txt
+gunicorn --bind=0.0.0.0:5000 server:flask_app
+```
+
+To run the developmet mode, use:
+```bash
+python3 server.py
+```
+
+
+**Deploy backend**
 ```bash
 cd backend
-npm run dev
+npm install
+npx prisma db push
+npx tsc scripts/questions.ts
+node scripts/questions.js
+npm run build
+npm run start
 ```
 
-
-
-
-
-
+To run the developmet mode, use:
+```bash
+npm run dev
+```
 
 ## :memo: License
 This project is licensed under the terms of the MIT license.

@@ -6,7 +6,8 @@ This folder provides a fullstack application to run the back and frontend.
 ### With Docker
 ```bash
 docker login devops.telecomste.fr:5050
-
+```
+```bash
 docker run -d --restart unless-stopped -p 80:80 -e DATABASE_URL="postgresql://user:password@url:port/database?schema=public" -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=123456789abcdef -e CLERK_SECRET_KEY=123456789abcdef -e SENTRY_AUTH_TOKEN=123456789abcdef -e SENTRY_DSN="DSN" -e NEXT_PUBLIC_FLASK_API_URL="url" -e WEBHOOK_SECRET=123445azeerty devops.telecomste.fr:5050/joly.andrea/voice-quiz/quiz-in/backend
 ```
 Open [http://localhost:80](http://localhost:80) with your browser to see the result.
