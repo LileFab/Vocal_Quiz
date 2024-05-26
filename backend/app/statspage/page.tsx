@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import {getRespondedQuestionsLast10Days, getOptionsForLineChart, getNumberOfQuestionsResponded, getAverageScore, getAverageScoreOfTheDay, getDataForLeaderboard, getDataForBarChart1, getDataForBarChart2 } from "../actions/statsActions";
+import {getAllStats } from "../actions/statsActions";
 import { motion } from "framer-motion"
 import { UserData} from "@/app/interface/UserData"
 import LeaderboardCard from "@/app/components/LeaderboardCard"
@@ -25,15 +25,15 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setNbQuestions(await getNumberOfQuestionsResponded());
-      setAverageScore(await getAverageScore());
-      setAverageScoreOfTheDay(await getAverageScoreOfTheDay());
-      setusersData(await getDataForLeaderboard())
-      setdataForBarChart1(await getDataForBarChart1())
-      setdataForBarChart2(await getDataForBarChart2())
+      setNbQuestions((await getAllStats()).nbQuestions);
+      setAverageScore((await getAllStats()).averageScore);
+      setAverageScoreOfTheDay((await getAllStats()).averageScoreOfTheDay);
+      setusersData((await getAllStats()).usersData)
+      setdataForBarChart1((await getAllStats()).dataForBarChart1)
+      setdataForBarChart2((await getAllStats()).dataForBarChart2)
       setcurrentDate(new Date())
-      setLineOptions(await getOptionsForLineChart())
-      setLineSeries(await getRespondedQuestionsLast10Days())
+      setLineOptions((await getAllStats()).lineOptions)
+      setLineSeries((await getAllStats()).lineSeries)
     };
     fetchData();
   }, []);
