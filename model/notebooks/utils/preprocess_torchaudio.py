@@ -124,13 +124,13 @@ def apply_noise(waveform):
 
 SAMPLE_RIR = download_asset("tutorial-assets/Lab41-SRI-VOiCES-rm1-impulse-mc01-stu-clo-8000hz.wav")
 def apply_reverb(waveform):
-    len = waveform.shape[1]
+    waveform_length = waveform.shape[1]
     waveform_rir, sample_rate = torchaudio.load(SAMPLE_RIR)
     rir = waveform_rir[:, int(sample_rate * 1.01) : int(sample_rate * 1.3)]
     rir = rir / torch.linalg.vector_norm(rir, ord=2)
     
     rir_augment = audioF.fftconvolve(waveform, rir)
-    return rir_augment[:,:len]
+    return rir_augment[:,:waveform_length]
 
 def apply_random_speed(waveform, sample_rate):
     min_value = 0.8
