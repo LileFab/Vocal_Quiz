@@ -3,22 +3,29 @@ version: '3'
 services:
   quiz-in-database:
     container_name: quiz-in-database
-    image: docker.io/library/mariadb:10.4
+    env_file: .env
+    image: devops.telecomste.fr:5050/joly.andrea/voice-quiz/quiz-in/database
     restart: always
+    ports:
+      - 5432:5432
     networks:
       - quiz-in-network
 
   quiz-in-model-api:
     container_name: quiz-in-model-api
-    image: docker.io/library/mariadb:10.4
+    image: devops.telecomste.fr:5050/joly.andrea/voice-quiz/quiz-in/model-api
     restart: always
+    ports:
+      - 5000:5000
     networks:
       - quiz-in-network
 
   quiz-in-backend:
     container_name: quiz-in-backend
     env_file: .env
-    image: ghcr.io/l-usine-logicielle/moodle-grades-scraper
+    image: devops.telecomste.fr:5050/joly.andrea/voice-quiz/quiz-in/backend
+    ports:
+      - 80:80
     depends_on:
       - quiz-in-database
       - quiz-in-model-api
