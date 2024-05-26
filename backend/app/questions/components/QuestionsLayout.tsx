@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { useState,useEffect, useRef } from "react";
 import QuestionCell from "./QuestionCell";
 import { UsersResponse } from"@/app/interface/UserResponse"
-import { submitUserAnswer } from "../../actions/questionsActions";
+import { submitUserAnswer,getQuestionById } from "../../actions/questionsActions";
 import { currentUser } from "@clerk/nextjs/server";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
@@ -39,14 +39,15 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
     };
 
     const handleResponseFromChild = async (resp: UsersResponse) => {
-        console.log(resp);
         if (resp.is_correct) {
             setBonneRep(bonneRep + 1);
-            toast.success('Bonne réponse !', {duration:1000});
+            toast.success(`Bonne réponse !\n\n Vous avez répondu ${resp.user_response}.`, {duration:3000});
         }
-        else {toast.error(`Faux, la bonne réponse était ${questionList[questionStep].good_answer}`, {duration:2000});}
+        else {toast.error(`Faux... La bonne réponse était ${questionList[questionStep].good_answer}.\n\nVous avez répondu ${resp.user_response}.`, {duration:3000});}
         await submitUserAnswer(resp);
-        stepSubmit()
+        setTimeout(() => {
+            stepSubmit();
+        }, 2500);
     }
 
     
@@ -63,7 +64,7 @@ const QuestionsLayout = ({questionList}: {questionList: Question[]}) => {
              {questionStep === -1 &&(
                 <>
                     <StartPage/>
-                    <Button text="Commencer le quiz" onClick={stepSubmit}/>
+                    <Button text="Commencer le quiz !" onClick={stepSubmit}/>
                 </>
             )
             }
