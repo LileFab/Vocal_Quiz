@@ -92,7 +92,6 @@ const QuestionCell = ({
         let tempsPris = 0;
         if (pageLoadTime) tempsPris = new Date().getTime() - pageLoadTime.getTime();
         let respFromModelInt = null;
-        console.log(shuffledAnswers);
 
         switch(respFromModel) {
             case "un":respFromModelInt = shuffledAnswers[0]?.toString();
@@ -194,7 +193,6 @@ const QuestionCell = ({
                 },
             });
             setRespFromModel(response.data);
-            console.log("model resp : " + response.data)
         } catch (error) {
             console.error("Error uploading file:", error);
         }

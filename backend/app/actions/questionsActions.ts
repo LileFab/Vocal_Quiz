@@ -11,7 +11,6 @@ const getUserId = async () => {
 }
 
 export async function shuffleArray(array: string[]) {
-  console.log("Array action" + array);
   if (!array.includes("oui")){
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
