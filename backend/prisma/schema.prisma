@@ -40,8 +40,8 @@ model user {
   updatedAt       DateTime     @updatedAt
   clerkUserId     String      @unique
   username  String?
-  firstName  String
-  lastName  String
+  firstName  String?
+  lastName  String?
   imgPath String
   averageScore  Float?
 }
