@@ -38,7 +38,11 @@ The API exposes the following endpoints:
     Parameters: WAV file (16-bit) to be transcribed.  
     Example:
     ```curl -X POST -F "file=@record.wav" http://localhost:5000/speech_to_text```
-    
+
+## Swagger Documentation
+Swagger documentation for the API is available, providing a detailed and interactive interface for exploring the API's endpoints.
+
+To access the Swagger documentation, visit: http://localhost:5000/apidocs
 
 ## Appendices 
 ### Download the dataset used to train the model

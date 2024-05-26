@@ -1,7 +1,12 @@
 FROM python:3.10-slim
 
-ADD . /app
 WORKDIR /app
+
+COPY api/ /app/api/
+COPY utils/ /app/utils/
+COPY requirements_prod.txt /app/
+COPY server.py /app/
+
 
 RUN --mount=type=cache,target=/var/cache/apt \
     apt update && \
