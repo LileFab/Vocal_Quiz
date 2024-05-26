@@ -189,7 +189,7 @@ const QuestionCell = ({
         try {
             const response = await axios.post(flaskApiUrl, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "multipart/form-data", 
                     "Access-Control-Allow-Origin": "*",
                 },
             });
