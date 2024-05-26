@@ -44,8 +44,9 @@ Each file can be runned separatly and have its own purpose.
 - `format_performance.ipynb` Performance difference between wav and mp3 file process calculation.
 - `preprocess_dataset.ipynb` First pre processing step on dataset (mp3 to wav)
 - `model_cnn.ipynb` Experiment on Convolutionnal Neural Network (CNN) to extract speech from audios.
-- `data_augment_V2.ipynb` Data augmentation experiment and process on dataset to improve model accuracy with more data.
-- `lstm_training.ipynb` Training on LSTM model to extract speech from audios. Using pre processed tensor generated from `data_augment_V2.ipynb`. And also reporting model result with hyper parameters in `result.csv`.
+- `dataset_augment.ipynb` Data augmentation experiment and process on dataset to improve model accuracy with more data.
+- `model_lstm.ipynb` Training on LSTM model to extract speech from audios. Using pre processed tensor generated from `dataset_augment.ipynb`. And also reporting model result with hyper parameters in `result.csv`.
+- `lstm_distillation` Distillation of teacher model to student one, for model size optimization
 
 ## Appendices 
 ### Utils
