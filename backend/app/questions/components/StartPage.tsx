@@ -16,7 +16,7 @@ export const StartPage = () => {
                     <li>-&gt; Des quesions avec 4 propositions de réponses, vous serez inviter à répondre par 1, 2, 3 ou 4.</li>
                     <li>-&gt; Ou des questions oui / non où vous serez inviter à répondre soit par oui soit par non.</li>
                 </ul>
-                <p className="mt-10">Afin d'être sûr que vos réponses seront bien enregistrées merci de réalisé le quiz dans son entiéreté.</p>
+                <p className="mt-10">Afin d'être sûr que vos réponses seront bien enregistrées merci de réaliser le quiz dans son entiéreté.</p>
             </div>
         </motion.div>
   )
