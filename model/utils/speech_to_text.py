@@ -4,9 +4,7 @@ import logging
 import torchaudio
 from utils.lstm import LSTM
 from utils.preprocess import (
-    spectrogram_to_tensor_save,
     waveform_to_mel_spectrogram_db,
-    audio_to_mel_spectrogram_db,
     normalize,
     truncate_voice
 )
@@ -48,12 +46,11 @@ def instance_speech_to_text(file):
     lstm = load_model()
     with torch.no_grad():
         output = lstm(input_tensor)
-    logger.info(output)
     predicted_class_index = torch.argmax(output, axis=1).item()
-    logger.info(predicted_class_index)
     sentence = {0: 'oui', 1: 'non', 2: 'un', 3: 'deux', 4: 'trois',
                 5: 'quatre'}
     predicted_class = sentence[predicted_class_index]
+    logger.info(f"Predicted class: {predicted_class}")
     return predicted_class
 
 
