@@ -181,14 +181,14 @@ const QuestionCell = ({
         formData.append("file", blob, "recording.wav");
 
         try {
-            const response = await axios.post("http://localhost:5000/speech_to_text", formData, {
+            const response = await axios.post("http://127.0.0.1:5000/speech_to_text", formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "multipart/form-data", 
                     "Access-Control-Allow-Origin": "*",
                 },
             });
             setRespFromModel(response.data);
-            console.log("model resp" + response.data)
+            //console.log("model response" + response.data)
         } catch (error) {
             console.error("Error uploading file:", error);
         }
