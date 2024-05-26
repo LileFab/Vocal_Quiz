@@ -45,27 +45,39 @@ const App = () => {
         transition={{ duration: 0.5 }}
         className="h-screen"
       >
-        <div className="grid grid-cols-4 mt-10 border-2 border-black p-8 m-2">
-          <div className="border-r-4 border-black pl-8">{!Number.isNaN(AverageScoreOfTheDay) ? ("Score moyen du jour : " + (AverageScoreOfTheDay * 10) + " / 10") : "Pas de partie aujourd'hui"}</div>
-          <div className="border-r-4 border-black px-20">Score moyen : {(AverageScore * 10).toFixed(2)} / 10</div>
-          <div className="px-20">Nombre de questions répondues : {nbQuestions}</div>
-          <div className="border-l-4 border-black px-20">theme avec le meilleur score</div>
+        <div className="grid grid-cols-3 mt-10 border-4 border-black p-4 m-2 rounded-xl">
+          <div className="border-r-4 border-black pl-2 text-center pr-2">
+            <h3 className="text-s font-bold pb-2 text-2xl"><p>Score moyen du jour :</p></h3>
+            <h3 className="flex items-center justify-center text-xl">{!Number.isNaN(AverageScoreOfTheDay) ? ((AverageScoreOfTheDay * 10).toFixed(2) + " / 10") : "Aucune partie enregistrée aujourd'hui"}</h3>
+          </div>
+          <div className="border-r-4 border-black pl-4 text-center text-2xl">
+            <h3 className="text-s font-bold pb-2"><p>Score moyen :</p></h3>
+            <h3 className="flex items-center justify-center text-xl">{!Number.isNaN(AverageScore) ? (AverageScore * 10).toFixed(2) + "/10": "Aucune partie enregistrée"}</h3>
+          </div>
+          <div className="text-center">
+            <h3 className="text-s font-bold pb-2 text-xl"><p>Nombre de questions répondues :</p></h3>
+            <h3 className="flex items-center justify-center text-xl">{nbQuestions}</h3>
+          </div>
+
         </div>
         <div className="grid grid-cols-3 space-x-4 p-2">
-          <div className="col-span-2">
+          <div className="col-span-2 px-8 pt-8 border-4 border-black rounded-xl items-center place-content-between">
             <div className="grid grid-cols-2">
-              <div>
-                <ApexChart type="bar" options={barOptions1} series={dataForBarChart1} height={500} width={500} />
+              <div className="text-center">
+                <h3 className="text-s font-bold pb-2"><p>Score moyen par catégorie</p></h3>
+                <ApexChart type="bar" options={barOptions1} series={dataForBarChart1} height={500} width={380} />
               </div>
-              <div>
-                <ApexChart type="bar" options={barOptions2} series={dataForBarChart2} height={500} width={500} />
+              <div className="text-center">
+                <h3 className="text-s font-bold pb-2"><p>Score moyen par difficulté</p></h3>
+                <ApexChart type="bar" options={barOptions2} series={dataForBarChart2} height={430} width={400} />
               </div>
             </div>
-            <div className="w-full">
-              <ApexChart type="line" options={lineOptions} series={lineSeries} height={300} width={1000} />
+            <div className="w-full text-center">
+              <h3 className="text-s font-bold pb-2"><p>Nombre de partie joué par jour</p></h3>
+              <ApexChart type="line" options={lineOptions} series={lineSeries} height={300} width={870} />
             </div>
           </div>
-          <div>
+          <div className="border-4 border-black rounded-xl px-3">
             <h1 className="text-4xl text-center">Leaderboard</h1>
             <div>{usersData &&
               (usersData.map((userData: UserData, index: number) => {
