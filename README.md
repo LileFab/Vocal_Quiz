@@ -7,7 +7,7 @@ This repository contains the code for the Quiz'In application. This application 
 ### Deployment with Docker
 1. Clone the project
 ```bash
-git clone https://devops.telecomste.fr/joly.andrea/voice-quiz.git
+git clone https://devops.telecomste.fr/joly.andrea/voice-quiz.git](https://github.com/LileFab/Vocal_Quiz.git
 ```
 2. Sign in to gitlab registry
 ```bash
